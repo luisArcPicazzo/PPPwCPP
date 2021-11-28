@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C4E1D22327536F3B00B68CAA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C4E1D22227536F3B00B68CAA /* main.cpp */; };
+		C4A3342B275372C5009CE3D0 /* Ex-3-Ch-6.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C4A3342A275372C5009CE3D0 /* Ex-3-Ch-6.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,8 +23,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		C4E1D21F27536F3B00B68CAA /* PPP-Cpp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "PPP-Cpp"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C4E1D22227536F3B00B68CAA /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		C4A33428275372AC009CE3D0 /* source-files */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "source-files"; sourceTree = "<group>"; };
+		C4A3342A275372C5009CE3D0 /* Ex-3-Ch-6.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "Ex-3-Ch-6.cpp"; path = "source-files/Chapter-6/Ex-3-Ch-6.cpp"; sourceTree = SOURCE_ROOT; };
+		C4A3342D275372D9009CE3D0 /* std_lib_facilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = std_lib_facilities.h; sourceTree = "<group>"; };
+		C4E1D21F27536F3B00B68CAA /* PPP-Cpp-Exercises */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "PPP-Cpp-Exercises"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,7 +43,8 @@
 		C4E1D21627536F3B00B68CAA = {
 			isa = PBXGroup;
 			children = (
-				C4E1D22127536F3B00B68CAA /* PPP-Cpp */,
+				C4A33428275372AC009CE3D0 /* source-files */,
+				C4E1D22127536F3B00B68CAA /* Working */,
 				C4E1D22027536F3B00B68CAA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -49,25 +52,26 @@
 		C4E1D22027536F3B00B68CAA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C4E1D21F27536F3B00B68CAA /* PPP-Cpp */,
+				C4E1D21F27536F3B00B68CAA /* PPP-Cpp-Exercises */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C4E1D22127536F3B00B68CAA /* PPP-Cpp */ = {
+		C4E1D22127536F3B00B68CAA /* Working */ = {
 			isa = PBXGroup;
 			children = (
-				C4E1D22227536F3B00B68CAA /* main.cpp */,
+				C4A3342D275372D9009CE3D0 /* std_lib_facilities.h */,
+				C4A3342A275372C5009CE3D0 /* Ex-3-Ch-6.cpp */,
 			);
-			path = "PPP-Cpp";
+			path = Working;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C4E1D21E27536F3B00B68CAA /* PPP-Cpp */ = {
+		C4E1D21E27536F3B00B68CAA /* PPP-Cpp-Exercises */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C4E1D22627536F3B00B68CAA /* Build configuration list for PBXNativeTarget "PPP-Cpp" */;
+			buildConfigurationList = C4E1D22627536F3B00B68CAA /* Build configuration list for PBXNativeTarget "PPP-Cpp-Exercises" */;
 			buildPhases = (
 				C4E1D21B27536F3B00B68CAA /* Sources */,
 				C4E1D21C27536F3B00B68CAA /* Frameworks */,
@@ -77,9 +81,9 @@
 			);
 			dependencies = (
 			);
-			name = "PPP-Cpp";
+			name = "PPP-Cpp-Exercises";
 			productName = "PPP-Cpp";
-			productReference = C4E1D21F27536F3B00B68CAA /* PPP-Cpp */;
+			productReference = C4E1D21F27536F3B00B68CAA /* PPP-Cpp-Exercises */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -95,7 +99,7 @@
 					};
 				};
 			};
-			buildConfigurationList = C4E1D21A27536F3B00B68CAA /* Build configuration list for PBXProject "PPP-Cpp" */;
+			buildConfigurationList = C4E1D21A27536F3B00B68CAA /* Build configuration list for PBXProject "PPP-Cpp-Exercises" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -108,7 +112,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C4E1D21E27536F3B00B68CAA /* PPP-Cpp */,
+				C4E1D21E27536F3B00B68CAA /* PPP-Cpp-Exercises */,
 			);
 		};
 /* End PBXProject section */
@@ -118,7 +122,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C4E1D22327536F3B00B68CAA /* main.cpp in Sources */,
+				C4A3342B275372C5009CE3D0 /* Ex-3-Ch-6.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -171,7 +175,7 @@
 					"$(inherited)",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
@@ -224,7 +228,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
@@ -255,7 +259,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C4E1D21A27536F3B00B68CAA /* Build configuration list for PBXProject "PPP-Cpp" */ = {
+		C4E1D21A27536F3B00B68CAA /* Build configuration list for PBXProject "PPP-Cpp-Exercises" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C4E1D22427536F3B00B68CAA /* Debug */,
@@ -264,7 +268,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C4E1D22627536F3B00B68CAA /* Build configuration list for PBXNativeTarget "PPP-Cpp" */ = {
+		C4E1D22627536F3B00B68CAA /* Build configuration list for PBXNativeTarget "PPP-Cpp-Exercises" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C4E1D22727536F3B00B68CAA /* Debug */,
