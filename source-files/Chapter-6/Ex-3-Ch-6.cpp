@@ -5,16 +5,13 @@
 //
 
 /*
-    This file is known as calculator02buggy.cpp
-
-    I have inserted 5 errors that should cause this not to compile
-    I have inserted 3 logic errors that should cause the program to give wrong results
-
-    First try to find an remove the bugs without looking in the book.
-    If that gets tedious, compare the code to that in the book (or posted source code)
-
-    Happy hunting!
-
+    3.  Add a factorial operator: use a suffix ! operator to represent “factorial.” For example, the expression 7! means 7 * 6 * 5 * 4 * 3 * 2 * 1.
+        Make ! bind tighter than * and /; that is, 7*8! means 7*(8!) rather than (7*8)!.
+        Begin by modifying the grammar to account for a higher-level operator.
+        To agree with the standard mathematical definition of factorial, let 0! evaluate to 1.
+    
+        Hint: The calculator functions deal with doubles, but factorial is defined only for ints, so just for x!,
+        assign the x to an int and calculate the factorial of that int.
 */
 
 #include "std_lib_facilities.h"
