@@ -47,15 +47,24 @@
 struct PredefGrammar {
     vector<string> parsedInput;
     
-    int conjPos;
-    int nounPos;
-    int verbPos;
+    int initCjPos;
+    int initNnPos;
+    int initVbPos;
     
-    int conjCount;
-    int nounCount;
-    int verbCount;
+    int cjPos;
+    int nnPos;
+    int vbPos;
+    
+    int pstCjPos;
+    int pstNnPos;
+    int pstVbPos;
+    
+    int cjCount;
+    int nnCount;
+    int vbCount;
     
     bool isValidSentence;
+    int invalidCount;
     
     enum strValue {
         UNDEFINED =-1,
@@ -70,16 +79,46 @@ struct PredefGrammar {
         SWIM,
     };
     
+    enum partOfSpeechValue {
+        UNDEF,
+        NOUN,
+        VERB,
+        CONJUNCTION
+    };
+    
     std::map<string, strValue> optionValue;
+    std::map<strValue, partOfSpeechValue> partsSpchMp;
+    
+    
+    
+
     
     PredefGrammar()
         :parsedInput()
-        ,conjPos(0) // always defaults to third pos for the first sentence
-        ,nounPos(0) // always defaults to zeroeth pos for the first sentence
-        ,verbPos(0) // always defaults to first pos fot the first sentence
-        ,conjCount(0)
-        ,nounCount(0)
-        ,verbCount(0)
+        ,initCjPos(2)
+        ,initNnPos(0)
+        ,initVbPos(1)
+        ,cjPos(0) // always defaults to third pos for the first sentence
+        ,nnPos(0) // always defaults to zeroeth pos for the first sentence
+        ,vbPos(0) // always defaults to first pos fot the first sentence
+        ,pstCjPos(0)
+        ,pstNnPos(0)
+        ,pstVbPos(0)
+        ,cjCount(0)
+        ,nnCount(0)
+        ,vbCount(0)
+        ,isValidSentence(false)
+        ,invalidCount(0)
+        ,partsSpchMp{ {AND, CONJUNCTION}
+                     ,{OR, CONJUNCTION}
+                     ,{BUT, CONJUNCTION}
+                     ,{BIRDS, NOUN}
+                     ,{FISH, NOUN}
+                     ,{CPP, NOUN}
+                     ,{RULES, VERB}
+                     ,{FLY, VERB}
+                     ,{SWIM, VERB}
+                     ,{UNDEFINED, UNDEF} }
     {}
 };
 
@@ -112,56 +151,122 @@ int checkValidWord(string usrIn, PredefGrammar refData){
     return mapValue;
 }
 
+
+void checkPositions(PredefGrammar& rf, int ptSpchCase, int i) {
+
+        switch (ptSpchCase) {
+            case PredefGrammar::CONJUNCTION:
+                rf.cjPos = i;
+                if (i < rf.initCjPos) {
+                    cout << "Await..." << endl;
+                }
+                
+                if (i >= rf.initCjPos &&  rf.cjPos == rf.pstCjPos + 3) {
+                    cout << "CONJUNCTION" << endl;
+                    rf.pstCjPos = rf.cjPos;
+                    rf.cjPos = i;
+                } else if (i == rf.initCjPos) {
+                    cout << "CONJUNCTION" << endl;
+                    rf.pstCjPos = rf.initCjPos;
+                    rf.cjPos = i;
+                } else {
+                    cout << "invalid sentence" << endl;
+                    rf.pstCjPos = rf.cjPos;
+                }
+                break;
+                
+            case PredefGrammar::NOUN:
+                rf.nnPos = i;
+//                if (checkValidWord(rf.parsedInput[i-1], rf) == PredefGrammar::CONJUNCTION)
+                if (i < rf.initNnPos) {
+                    cout << "Await..." << endl;
+                }
+                if (i >= rf.initNnPos && rf.nnPos == rf.pstNnPos + 3) {
+                    cout << "NOUN" << endl;
+                    rf.pstNnPos = rf.nnPos;
+                    //rf.nnPos = i;
+                } else if (i == rf.initNnPos) {
+                    cout << "NOUN" << endl;
+                    rf.pstNnPos = rf.initNnPos;
+                    rf.nnPos = i;
+
+                } else {
+                    cout << "Invalid sentence" << endl;
+                    rf.pstNnPos = rf.nnPos;
+
+                }
+                break;
+                
+                
+            case PredefGrammar::VERB:
+                rf.vbPos = i;
+                if (i < rf.initVbPos) {
+                    cout << "Await..." << endl;
+                }
+                if (i >= rf.initVbPos && rf.vbPos == rf.pstVbPos + 3) {
+                    cout << "VERB" << endl;
+                    rf.pstVbPos = rf.vbPos;
+                
+                } else if (i == rf.initVbPos) {
+                    cout << "VERB" << endl;
+                    rf.pstVbPos = rf.initVbPos;
+                    rf.vbPos = i;
+                } else {
+                    cout << "Invalid sentence" << endl;
+                    //rf.pstVbPos = rf.vbPos;
+                    rf.pstNnPos = rf.vbPos;
+                    rf.pstCjPos = rf.vbPos;
+                    
+
+                }
+                break;
+                
+                
+        }
+
+    }
+
+
 void parseInput(PredefGrammar& rf) {     // checks whether it's a noun, verb or conjunction.
     
     for (int i = 0; i < rf.parsedInput.size(); ++i) {
         
+        int mapValue = 0;
         switch (checkValidWord(rf.parsedInput[i], rf)) {
             case PredefGrammar::AND:
             case PredefGrammar::OR:
             case PredefGrammar::BUT:
-                cout << "I'M A CONJUNCTION" << endl;
-                rf.conjPos = i;
-                rf.conjCount++;
-                cout << "conjPos: " << rf.conjPos << endl;
-                cout << "conjCount: " << rf.conjCount << endl << endl;
+                //cout << "CONJUNCTION" << endl;
+                
+                mapValue = PredefGrammar::CONJUNCTION;
+                checkPositions(rf, mapValue, i);
                 break;
         
             case PredefGrammar::BIRDS:
             case PredefGrammar::FISH:
             case PredefGrammar::CPP:
-                cout << "I'M A NOUN" << endl;
-                rf.nounPos = i;
-                rf.nounCount++;
-                cout << "nounPos: " << rf.nounPos << endl;
-                cout << "nounCount: " << rf.nounCount << endl << endl;
+                //cout << "NOUN" << endl;
+                
+                mapValue = PredefGrammar::NOUN;
+                checkPositions(rf, mapValue, i);
                 break;
         
             case PredefGrammar::RULES:
             case PredefGrammar::FLY:
             case PredefGrammar::SWIM:
-                cout << "I'M A VERB" << endl;
-                rf.verbPos = i;
-                rf.verbCount++;
-                cout << "verbPos: " << rf.verbPos << endl;
-                cout << "verbCount: " << rf.verbCount << endl << endl;
+                //cout << "VERB" << endl;
+                
+                mapValue = PredefGrammar::VERB;
+                checkPositions(rf, mapValue, i);
                 break;
+                
             default:
                 cout << "Word not Found in Vocab" << endl;
                 break;
         }
+        //checkPositions(rf, i, mapValue);
     }
-    checkValidSentence(rf);
-}
-
-void checkValidSentence(PredefGrammar& rf) {
-    if(rf.verbPos - rf.nounPos == 1) {
-        cout << "diff: " << rf.verbPos - rf.nounPos << endl;
-        cout << "VALID" << endl;
-    } else {
-        cout << "diff: " << rf.verbPos - rf.nounPos << endl;
-        cout << "INVALID" << endl;
-    }
+    // call check positions??
 }
 
 int main(){
@@ -179,11 +284,7 @@ int main(){
     }
     cout << endl;
     parseInput(reference);
-    cout << endl;
-    cout << reference.parsedInput[0] << endl;
-    cout << reference.parsedInput[1] << endl;
-    cout << reference.parsedInput[2] << endl;
-    cout << reference.parsedInput[3] << endl;
-    cout.flush();
+
 }
+
 

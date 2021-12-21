@@ -6,10 +6,6 @@
 	objectVersion = 50;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		C458C2222754123300B46419 /* Ex-6-Ch-6.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C458C2212754123300B46419 /* Ex-6-Ch-6.cpp */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		C4E1D21D27536F3B00B68CAA /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -23,7 +19,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		C458C2212754123300B46419 /* Ex-6-Ch-6.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "Ex-6-Ch-6.cpp"; path = "source-files/Chapter-6/Ex-6-Ch-6.cpp"; sourceTree = SOURCE_ROOT; };
 		C4A33428275372AC009CE3D0 /* source-files */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "source-files"; sourceTree = "<group>"; };
 		C4A3342D275372D9009CE3D0 /* std_lib_facilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = std_lib_facilities.h; sourceTree = "<group>"; };
 		C4E1D21F27536F3B00B68CAA /* PPP-Cpp-Exercises */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "PPP-Cpp-Exercises"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,7 +56,6 @@
 			isa = PBXGroup;
 			children = (
 				C4A3342D275372D9009CE3D0 /* std_lib_facilities.h */,
-				C458C2212754123300B46419 /* Ex-6-Ch-6.cpp */,
 			);
 			path = Working;
 			sourceTree = "<group>";
@@ -122,7 +116,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C458C2222754123300B46419 /* Ex-6-Ch-6.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
