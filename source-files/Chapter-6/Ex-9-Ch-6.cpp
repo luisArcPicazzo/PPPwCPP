@@ -15,30 +15,18 @@ int main() {
     int outputVal{0};
     vector<char> vInput;
     
-    cout << "Enter a 1, 2, 3 or 4 digit number. Enter 'done' to evaluate" << endl;
+    cout << "Enter a 1, 2, 3 or 4 digit number. Enter 'q' to evaluate" << endl;
     
     while (cin) {
         cin >> in;
-        //cin >> usrInput;
         if(in == 'q') break;
-                
         vInput.push_back(in);
     }
     
     for (int i = 0; i < vInput.size(); ++i) {
         int vlength = vInput.size() - 1;
-      //  if (vInput.size() == 4) {
-            // v[0] * 1000 + v[1] * 100 + v[2] * 10 + v[3] * 1
-            // outputVal = outputVal + ( (vInput[i]-'0') * ( 10 ^ (vlength - i) ) );
             outputVal = outputVal + ( (vInput[i]-'0') * ( pow(10.0, (vlength - i) ) ) ) ;
-            
-        //} else if (vInput.size() == 3) {
-            // v[0] * 100 + v[1] * 10 + v[2] * 1
-            
-        //}
     }
-    
-    //cout << "Your value in int is: " << outputVal << endl;
     
     for (int i = 0; i < vInput.size(); ++i) {
         if (vInput.size() == 4) {
@@ -78,11 +66,6 @@ int main() {
                     cout << " and " << oVal << " ones " << endl;
                     break;
             }
-            
         }
-        //cout << "\n" << "index: " << i << "--->" << vInput[i] << endl;
-        
-        
     }
-    
 }
