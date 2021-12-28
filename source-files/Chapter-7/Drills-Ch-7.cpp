@@ -14,20 +14,25 @@
     
     5. Do the testing and fix any bugs that you missed when you commented. ---------------- D O N E
  
-    6. Add a predefined name k meaning 1000. ----------------------------------------------
+    6. Add a predefined name k meaning 1000. ---------------------------------------------- D O N E
  
     7. Give the usera a square root function sqrt(), for example,
        sqrt(2+6.7). Naturally, the value of sqrt(x) is the square root
        of x; for example, sqrt(9) is 3. Use the standard library sqrt()
-       function that is available through the header std_lib_facilities.h.
-       Remember to update the comments, including the grammar. ----------------------------
+       function that is available through the header std_lib_facilities.h. ---------------- Fixed it with help from a solution (still don't fully understand the grammar part)
+       Remember to update the comments, including the grammar. ---------------------------- D O N E
     
-    8. Catch attempts to take the sqare root of a negative number and
-       print an appropriate error message. ------------------------------------------------
+    8. Catch attempts to take the square root of a negative number and
+       print an appropriate error message. ------------------------------------------------ D O N E
     
     9. Allow the user to use pow(x, i) to mean "Multiply x with itself
        i times"; for example, pow(2.5, 3) is 2.5*2.5*2.5. Require i
-       to be an integer using the technique we used for %. --------------------------------
+       to be an integer using the technique we used for %. -------------------------------- D O N E
+ 
+    10. Change the "declaration keyword" from let to #. ----------------------------------- T R I V I A L
+ 
+    11. Change the "quit keyword" from quit to exit. That will involve defining
+        a string for quit just as we did for let in Ss 7.8.2. ----------------------------- T R I V I A L
  */
 
 /*
@@ -66,7 +71,8 @@ const char quit = 'Q';
 const char print = ';';
 const char number = '8';
 const char name = 'a';
-//const string declkey = "let";
+const char sqRoot = 'S';
+const char power = 'P';
 
 Token Token_stream::get()
 {
@@ -74,27 +80,12 @@ Token Token_stream::get()
     char ch;
     cin >> ch;
     switch (ch) {
-    case '(':
-    case ')':
-    case '+':
-    case '-':
-    case '*':
-    case '/':
-    case '%':
-    case ';':
-    case '=':
+    case '(': case ')': case '+': case '-': case '*':
+    case '/': case '%': case ';': case '=': case ',':
         return Token(ch);
     case '.':
-    case '0':
-    case '1':
-    case '2':
-    case '3':
-    case '4':
-    case '5':
-    case '6':
-    case '7':
-    case '8':
-    case '9':
+    case '0': case '1': case '2': case '3': case '4':
+    case '5': case '6': case '7': case '8': case '9':
     {
         cin.unget();
         double val;
@@ -113,6 +104,8 @@ Token Token_stream::get()
                 cin.unget();
                 if (s == "let") return Token(let);
                 if (s == "quit") return Token(quit);
+                if (s == "sqrt") return Token(sqRoot);
+                if (s == "pow") return Token(power);
                 return Token(name, s);  // Bug (1) fixed... Needed additional constructor.
             }
             error("Bad token");
@@ -145,7 +138,6 @@ double get_value(string s)
 {
     for (int i = 0; i < names.size(); ++i)
         if (names[i].name == s) return names[i].value;
-    // else
     error("get: undefined name ", s);
 }
 
@@ -156,7 +148,6 @@ void set_value(string s, double d)
             names[i].value = d;
             return;
         }
-    // else
     error("set: undefined name ", s);
 }
 
@@ -164,7 +155,6 @@ bool is_declared(string s)
 {
     for (int i = 0; i < names.size(); ++i)
         if (names[i].name == s) return true;
-    // else
     return false;
 }
 
@@ -190,6 +180,35 @@ double primary()
         return t.value;
     case name:
         return get_value(t.name);
+    case sqRoot:
+    {
+        Token pkNxtTkn = ts.get();
+        if (pkNxtTkn.kind != '(') error("Syntax Error: missing '('");
+        double param = expression();
+        Token pkNxtTkn2 = ts.get();
+        if (pkNxtTkn2.kind != ')' ) error("Syntax Error: missing ')'");
+        if (param < 0.0) error ("Syntax Error: no negative parameters allowed...");
+        return sqrt(param);
+    }
+    case power:
+    {
+        Token pkNxtTkn = ts.get();
+        if (pkNxtTkn.kind != '(') error("Syntax Error: missing '('");
+        double param = expression();
+        
+        Token pkNxtTkn2 = ts.get();
+        if (pkNxtTkn2.kind != ',' ) error("Syntax Error: missing ','");
+        
+        double pwrExpr = expression();
+        int pwrParam = (int)pwrExpr;  // don't understand very well.. but aids to check for int values
+        
+        if (pwrParam != pwrExpr) error("Syntax Error: power parameters must be integers"); // compares / checks for int values....
+        
+        Token pkNxtTkn3 = ts.get();
+        if (pkNxtTkn3.kind != ')' ) error("Syntax Error: missing ')'");
+        
+        return pow(param, pwrParam);
+    }
     default:
         error("primary expected");
         break;
@@ -217,7 +236,6 @@ double term()
             double d = primary();
             if (d == 0) error("%: divide by zero");
             left = fmod(left, d); // fmod as in floating modulo. in order to accept floating point values. <cmath> library
-            t = ts.get();
             break;
         }
                 
@@ -301,6 +319,8 @@ void calculate()
 int main()
 
 try {
+    names.push_back(Variable("K", 1000));
+    
     calculate();
     return 0;
 }
