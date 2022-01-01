@@ -37,6 +37,7 @@ const char number = '8';
 const char name = 'a';
 const char sqRoot = 'S';
 const char power = 'P';
+const char cLet = 'M';
 
 Token Token_stream::get()
 {
@@ -47,8 +48,7 @@ Token Token_stream::get()
     case '(': case ')': case '+': case '-': case '*':
     case '/': case '%': case ';': case '=': case ',':
         return Token(ch);
-    //case '_':
-    //    return Token(let);
+
     case '.':
     case '0': case '1': case '2': case '3': case '4':
     case '5': case '6': case '7': case '8': case '9':
@@ -69,6 +69,7 @@ Token Token_stream::get()
                 }
                 cin.unget();
                 if (s == "let") return Token(let);
+                if (s == "const") return Token(cLet);
                 if (s == "quit") return Token(quit);
                 if (s == "sqrt") return Token(sqRoot);
                 if (s == "pow") return Token(power);
@@ -95,7 +96,8 @@ void Token_stream::ignore(char c)
 struct Variable {
     string name;
     double value;
-    Variable(string n, double v) :name(n), value(v) { }
+    bool isConstVal;
+    Variable(string n, double v, bool cV) : name(n), value(v), isConstVal(cV) { }
 };
 
 vector<Variable> names;
@@ -111,6 +113,8 @@ void set_value(string s, double d)
 {
     for (int i = 0; i < names.size(); ++i)                    // potential bug <= ???
         if (names[i].name == s) {
+            if (names[i].isConstVal == true) error("can't redefine constant ", s);
+    
             names[i].value = d;
             return;
         }
@@ -122,6 +126,12 @@ bool is_declared(string s)
     for (int i = 0; i < names.size(); ++i)
         if (names[i].name == s) return true;
     return false;
+}
+
+double defineConstVarName(string s, double val, bool isConstVal = true) {
+    if (is_declared(s)) error(s, " declared twice");
+    names.push_back(Variable(s, val, isConstVal));
+    return val;
 }
 
 Token_stream ts;
@@ -145,7 +155,17 @@ double primary()
     case number:
         return t.value;
     case name:
-        return get_value(t.name);
+    {
+        Token nxtTkn = ts.get();
+        if (nxtTkn.kind == '=') {
+            double d = expression();
+            set_value(t.name, d);
+            return d;
+        } else {
+            ts.unget(nxtTkn);         // not an assignmen; return the value.
+            return get_value(t.name); // return the variable's value.
+        }
+    }
     case sqRoot:
     {
         Token pkNxtTkn = ts.get();
@@ -231,7 +251,7 @@ double expression()
     }
 }
 
-double declaration()
+double declaration(Token crTkn)
 {
     Token t = ts.get();
     if (t.kind != 'a') error("name expected in declaration");     // not a name ???
@@ -241,9 +261,7 @@ double declaration()
     if (t2.kind != '=') error("= missing in declaration of ", name);
     double d = expression();
     
-    if (is_declared(name)) set_value(name, d);
-    else names.push_back(Variable(name, d));
-    
+    defineConstVarName(name, d, crTkn.kind == cLet);
     return d;
 }
 
@@ -251,8 +269,9 @@ double statement()
 {
     Token t = ts.get();
     switch (t.kind) {
+    case cLet:
     case let:
-        return declaration();
+        return declaration(t.kind);
     default:
         ts.unget(t);
         return expression();
@@ -288,7 +307,9 @@ void calculate()
 int main()
 
 try {
-    names.push_back(Variable("K", 1000));
+    defineConstVarName("K", 1000, false);
+    defineConstVarName ("pi", 3.1415926535, true);
+    defineConstVarName ("e", 2.7182818284, true);
     
     calculate();
     return 0;
