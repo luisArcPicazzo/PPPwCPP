@@ -16,7 +16,7 @@ struct Token {
     string name;
     Token(char ch) :kind(ch), value(0) { }
     Token(char ch, double val) :kind(ch), value(val) { }
-    Token(char ch, string str): kind(ch), name(str) { } // bug (1) -- Added additional constructor
+    Token(char ch, string str): kind(ch), name(str) { }
 };
 
 class Token_stream {
@@ -33,8 +33,7 @@ public:
 
 const char let = 'L';
 const char quit = 'Q';
-//const char print = ';';
-const char print = '\n';
+const char print = ';';
 const char number = '8';
 const char name = 'a';
 const char sqRoot = 'S';
@@ -45,16 +44,21 @@ Token Token_stream::get()
 {
     if (full) { full = false; return buffer; }
     char ch;
+    cin.get(ch);
 
     //do {
     //    if(!cin.get(ch))
     //        return Token(ch);
-    //} while(isspace(ch) && ch!='\n');
+    //} while(isspace(ch) && ch!='\n');   From the c++ programming language.. book
+    
+    while (isspace(ch)) {
+        if (ch == '\n') return Token(print);
+        cin.get(ch);
+    }
 
     switch (ch) {
         case '(': case ')': case '+': case '-': case '*':
         case '/': case '%': case ';': case '=': case ',':
-        case '\n': case ' ':
             return Token(ch);
 
         case '.':
@@ -71,8 +75,8 @@ Token Token_stream::get()
             if (isalpha(ch)) {
                 string s;
                 s += ch;
-                while (cin.get(ch) && (isalpha(ch) || isdigit(ch) || ch == '_')) {
-                    s += ch;  // The get() member function works just like >> except that it doesn't by default skip whitespace.
+                while (cin.get(ch) && (isalpha(ch) || isdigit(ch) || ch == '_')) {  // The get() member function works just like >> except that it doesn't by default skip whitespace.
+                    s += ch;
                 }
                 cin.unget();
                 if (s == "let") return Token(let);
