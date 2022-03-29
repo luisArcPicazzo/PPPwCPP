@@ -3,11 +3,12 @@
     5. Modify Token_stream::get() to return Token(print) when it sees a new-line. This
        implies looking for whitespace characters and treating newline ('\n') specially.
        You might find the standard library function isspace(ch), which returns 'true' if 'ch'
-       is a whitespace cahracter, useful.
+       is a whitespace character, useful.
  */
 
 
 #include "std_lib_facilities.h"
+#include <string>
 
 struct Token {
     char kind;
@@ -32,7 +33,8 @@ public:
 
 const char let = 'L';
 const char quit = 'Q';
-const char print = ';';
+//const char print = ';';
+const char print = '\n';
 const char number = '8';
 const char name = 'a';
 const char sqRoot = 'S';
@@ -43,29 +45,34 @@ Token Token_stream::get()
 {
     if (full) { full = false; return buffer; }
     char ch;
-    cin >> ch;
-    switch (ch) {
-    case '(': case ')': case '+': case '-': case '*':
-    case '/': case '%': case ';': case '=': case ',':
-        return Token(ch);
 
-    case '.':
-    case '0': case '1': case '2': case '3': case '4':
-    case '5': case '6': case '7': case '8': case '9':
-    {
-        cin.unget();
-        double val;
-        cin >> val;
-        return Token(number, val);
-    }
-    default:
+    //do {
+    //    if(!cin.get(ch))
+    //        return Token(ch);
+    //} while(isspace(ch) && ch!='\n');
+
+    switch (ch) {
+        case '(': case ')': case '+': case '-': case '*':
+        case '/': case '%': case ';': case '=': case ',':
+        case '\n': case ' ':
+            return Token(ch);
+
+        case '.':
+        case '0': case '1': case '2': case '3': case '4':
+        case '5': case '6': case '7': case '8': case '9':
+        {
+            cin.unget();
+            double val;
+            cin >> val;
+            return Token(number, val);
+        }
+        default:
         {
             if (isalpha(ch)) {
                 string s;
                 s += ch;
-                while (cin.get(ch) && (isalpha(ch) || isdigit(ch) || ch == '_')) {   // reads a character into ch as long as ch is a letter or a digit..
-                    s += ch; // bug 4... Missed a plus sign in s+= ch. so it can appendi it to the string s. (only if it's a letter or a digit)
-                             // The get() member function works just like >> except that it doesn't by default skip whitespace.
+                while (cin.get(ch) && (isalpha(ch) || isdigit(ch) || ch == '_')) {
+                    s += ch;  // The get() member function works just like >> except that it doesn't by default skip whitespace.
                 }
                 cin.unget();
                 if (s == "let") return Token(let);
@@ -73,7 +80,7 @@ Token Token_stream::get()
                 if (s == "quit") return Token(quit);
                 if (s == "sqrt") return Token(sqRoot);
                 if (s == "pow") return Token(power);
-                return Token(name, s);  // Bug (1) fixed... Needed additional constructor.
+                return Token(name, s);
             }
             error("Bad token");
         }
